@@ -1,8 +1,5 @@
 package pro.yagupov.galleryprototype.ui.holder;
 
-import android.media.ThumbnailUtils;
-import android.os.Handler;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,7 +24,8 @@ import static pro.yagupov.galleryprototype.models.GalleryFile.VIDEO;
 
 public class SimpleFileViewHolder extends SectioningAdapter.ItemViewHolder {
 
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+    private static final SimpleDateFormat
+            DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
     @BindView(R.id.play)
     View vPlay;
@@ -48,7 +46,7 @@ public class SimpleFileViewHolder extends SectioningAdapter.ItemViewHolder {
 
     public void fill(GalleryFile file) {
         vName.setText(file.getName());
-        vDate.setText(sdf.format(file.getCreated().getTime()));
+        vDate.setText(DATE_FORMAT.format(file.getCreated().getTime()));
 
         vPlay.setVisibility(View.GONE);
         vSubText.setVisibility(View.GONE);

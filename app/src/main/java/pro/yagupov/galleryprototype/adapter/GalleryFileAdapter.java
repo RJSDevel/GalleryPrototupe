@@ -30,7 +30,8 @@ public class GalleryFileAdapter extends SectioningAdapter {
 
     private static class Section {
 
-        private static final SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
+        private static final SimpleDateFormat
+                DATE_FORMAT = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
 
         List<GalleryFile> list = new ArrayList<>();
 
@@ -40,7 +41,7 @@ public class GalleryFileAdapter extends SectioningAdapter {
         }
 
         String getDate() {
-            return sdf.format(list.get(0).getCreated().getTime());
+            return DATE_FORMAT.format(list.get(0).getCreated().getTime());
         }
     }
 
