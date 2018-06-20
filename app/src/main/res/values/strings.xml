@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">GalleryPrototype</string>
+
+    <string name="app_for_open_not_found">Приложения для открытия файла не найдено</string>
+
+    <string name="access_not_available_work_is_imposible">Доступ не предоствлен, работа невозможна</string>
+    <string name="repeat">Повторить</string>
+
+    <string name="attention">Внимание</string>
+    <string name="explanation_message">Работа без разрешения невозможна! Дайте разрешение</string>
+    <string name="allow">Дать</string>
+
+    <plurals name="files">
+        <item quantity="one">%d файл</item>
+        <item quantity="two">%d файла</item>
+        <item quantity="other">%d файлов</item>
+    </plurals>
+</resources>
