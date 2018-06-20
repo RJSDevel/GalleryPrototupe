@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import java.io.File;
@@ -24,7 +25,7 @@ public class LocalRepositoryImpl implements LocalRepository {
             handler.removeMessages(0);
         }
 
-        handler = new Handler();
+        handler = new Handler(Looper.getMainLooper());
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -36,13 +37,15 @@ public class LocalRepositoryImpl implements LocalRepository {
                     if (!appFolder.mkdir()) {
                         Log.e(getClass().getSimpleName(), "Can't create app folder - " + appFolder.getAbsolutePath());
                     }
-                } else {
-                    List<GalleryFile> files = new ArrayList<>();
+                }
+
+                List<GalleryFile> files = new ArrayList<>();
+                if (appFolder.exists() && appFolder.list().length > 0) {
                     for (String fileName : appFolder.list()) {
                         files.add(new GalleryFile(appFolder.getAbsolutePath() + File.separator + fileName));
                     }
-                    galleryFiles.setValue(files);
                 }
+                galleryFiles.setValue(files);
             }
         });
 
