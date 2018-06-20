@@ -2,7 +2,6 @@ package pro.yagupov.galleryprototype.ui;
 
 import android.Manifest;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -16,8 +15,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.webkit.MimeTypeMap;
 
 import org.zakariya.stickyheaders.StickyHeaderLayoutManager;
 
@@ -41,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements GalleryFileAdapte
     @BindView(R.id.refresh)
     SwipeRefreshLayout vRefresh;
 
+    private boolean isAfterPermissionSettings;
+
 
     private GalleryFileAdapter adapter = new GalleryFileAdapter(this);
 
@@ -59,6 +58,15 @@ public class MainActivity extends AppCompatActivity implements GalleryFileAdapte
         loadFiles();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isAfterPermissionSettings) {
+            isAfterPermissionSettings = false;
+            loadFiles();
+        }
+    }
+
     private void loadFiles() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
@@ -67,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements GalleryFileAdapte
                         .setTitle(R.string.attention)
                         .setMessage(R.string.explanation_message)
                         .setPositiveButton(R.string.allow, (dialog, which) -> {
+                            isAfterPermissionSettings = true;
+
                             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             Uri uri = Uri.fromParts("package", getPackageName(), null);
